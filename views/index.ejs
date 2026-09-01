@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Task Manager</h1>
+
+        <form action="/tasks" method="POST" class="task-form">
+            <input
+                type="text"
+                name="title"
+                placeholder="Enter a new task..."
+                required
+            >
+
+            <button type="submit">Add Task</button>
+        </form>
+
+        <div class="tasks">
+
+            <% if (tasks.length === 0) { %>
+
+                <p class="empty">No tasks available.</p>
+
+            <% } %>
+
+            <% tasks.forEach(task => { %>
+
+                <div class="task <%= task.completed ? 'completed' : '' %>">
+
+                    <span>
+                        <%= task.title %>
+                    </span>
+
+                    <div class="actions">
+
+                        <form
+                            action="/tasks/<%= task.id %>/toggle"
+                            method="POST"
+                        >
+                            <button type="submit">
+                                <%= task.completed ? "Undo" : "Complete" %>
+                            </button>
+                        </form>
+
+                        <form
+                            action="/tasks/<%= task.id %>/delete"
+                            method="POST"
+                        >
+                            <button type="submit" class="delete">
+                                Delete
+                            </button>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
