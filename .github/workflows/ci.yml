@@ -1,3 +1,4 @@
+```yaml
 name: CI
 
 on:
@@ -11,6 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
         node-version: [18, 20]
@@ -24,8 +26,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Check Node version
+        run: node --version
+
       - name: Install dependencies
         run: npm install
 
       - name: Run unit tests
         run: npm test
+```
+
