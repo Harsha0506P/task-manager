@@ -1,4 +1,3 @@
-```yaml
 name: CI
 
 on:
@@ -8,14 +7,19 @@ on:
 
 jobs:
   build:
-    name: Test on ${{ matrix.os }} with Node ${{ matrix.node-version }}
-    runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [18, 20]
+        os:
+          - ubuntu-latest
+          - windows-latest
+        node-version:
+          - 18
+          - 20
+
+    runs-on: ${{ matrix.os }}
+
+    name: Test on ${{ matrix.os }} with Node ${{ matrix.node-version }}
 
     steps:
       - name: Checkout code
@@ -34,5 +38,4 @@ jobs:
 
       - name: Run unit tests
         run: npm test
-```
 
