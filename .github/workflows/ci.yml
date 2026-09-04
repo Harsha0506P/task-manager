@@ -32,6 +32,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
 
       - name: Check API key
         shell: bash
@@ -41,14 +42,23 @@ jobs:
           else
             echo "API key is missing"
             exit 1
-          fi      
+          fi
 
       - name: Check Node version
         run: node --version
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run unit tests
         run: npm test
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.os }}-node-${{ matrix.node-version }}
+          path: dist/
 
