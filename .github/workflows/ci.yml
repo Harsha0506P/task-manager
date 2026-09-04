@@ -62,3 +62,12 @@ jobs:
             package.json
             package-lock.json
             views/
+
+  deploy:
+    name: Deploy to Render
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Render deployment
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
