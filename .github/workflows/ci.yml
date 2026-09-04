@@ -53,12 +53,12 @@ jobs:
       - name: Run unit tests
         run: npm test
 
-      - name: Build project
-        run: npm run build
-
-      - name: Upload build artifact
+      - name: Upload project artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ matrix.os }}-node-${{ matrix.node-version }}
-          path: dist/
-
+          name: task-manager-${{ matrix.os }}-node-${{ matrix.node-version }}
+          path: |
+            server.js
+            package.json
+            package-lock.json
+            views/
