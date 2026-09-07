@@ -3,7 +3,7 @@ name: Docker Build and Push
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   docker:
@@ -17,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Log in to GHCR
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -25,11 +25,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
-        run: |
-          docker build -t ghcr.io/harsha0506p/myapp:${{ github.ref_name }} .
-          docker tag ghcr.io/harsha0506p/myapp:${{ github.ref_name }} ghcr.io/harsha0506p/myapp:latest
+        run: docker build -t ghcr.io/harsha0506p/myapp:${{ github.ref_name }} .
 
       - name: Push Docker image
-        run: |
-          docker push ghcr.io/harsha0506p/myapp:${{ github.ref_name }}
-          docker push ghcr.io/harsha0506p/myapp:latest
+        run: docker push ghcr.io/harsha0506p/myapp:${{ github.ref_name }}
