@@ -1,0 +1,35 @@
+name: Docker Build and Push
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/harsha0506p/myapp:${{ github.ref_name }} .
+          docker tag ghcr.io/harsha0506p/myapp:${{ github.ref_name }} ghcr.io/harsha0506p/myapp:latest
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/harsha0506p/myapp:${{ github.ref_name }}
+          docker push ghcr.io/harsha0506p/myapp:latest
